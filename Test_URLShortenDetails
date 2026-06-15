@@ -89,7 +89,35 @@ class TestUrlShortenDetailsAndLengthen(unittest.TestCase):
         finally:
             # Clean up module injection
             sys.modules.pop("UrlShortener", None)
+    def test_add_invalid_urls(self):
+        # Will add invalidation for urls if time permits.
+        invalid_urls = [
+            "http://notsecure.com",
+            "//missinghttp.com",
+            "http:missingbars.com",
+            "http://missingend",
+            "",
+        ]
 
+        short_urls = [self.shortener.shorten(u) for u in invalid_urls]
+
+        for s in short_urls:
+            self.assertTrue(s.startswith(self.shortener.domain + "/"))
+
+        self.assertEqual(len(set(short_urls)), len(short_urls))
+
+        for original, short_u in zip(invalid_urls, short_urls):
+            rec = self.shortener.get_record(short_u)
+            self.assertIsNotNone(rec)
+            self.assertEqual(rec["long_url"], original)
+            self.assertEqual(rec["access_count"], 0)
+
+        for i, short_u in enumerate(short_urls, start=1):
+            got = self.shortener.access_url(short_u)
+            self.assertIsNotNone(got)
+            self.assertEqual(got, invalid_urls[i-1])
+            rec = self.shortener.get_record(short_u)
+            self.assertEqual(rec["access_count"], 1)
 
 if __name__ == "__main__":
     unittest.main()
