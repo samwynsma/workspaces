@@ -1,0 +1,4 @@
+This application is a user-side url interpreter that is primarily console-driven
+The command line asks the user for an existing short url or a url to shorten.
+If they add a new url, it creates a new short url for the 
+If they enter the existing short url, it increments the counter for that url and returns the long url.
