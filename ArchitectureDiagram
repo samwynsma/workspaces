@@ -1,0 +1,12 @@
+This is how the application is laid out.
+
+First, the user enters in a url, or asks for data about an existing short url.
+When the user enters a url, the application checks to see if the url exists in its data store.
+If the long url or short url exist in the data store, then the url counter increments.
+If the long url does not exist in the data store, a new json entry is created for the url. The entry includes a new shortened url for that long url and its creation time. It sets the access count to 0.
+If the url entered in the application is not a valid url, the user gets a message telling them that it is not a valid url.
+
+If the user asks for data about an existing short url, they are prompted to put in a short url.
+If they enter in a url that does not exist in the data store, they will get an error message telling them that the short url does not exist yet.
+If they enter a url that does exist in the data store, they will get the data associated with the url. This includes the short url itself, the associated long url, the timestamp of the url's creation, and the amount of times that the url has been opened.
+If they put in an invalid url, the user gets an error message telling them that it is not a valid url.
