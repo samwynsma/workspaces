@@ -89,6 +89,7 @@ class TestUrlShortenDetailsAndLengthen(unittest.TestCase):
         finally:
             # Clean up module injection
             sys.modules.pop("UrlShortener", None)
+
     def test_add_invalid_urls(self):
         # Will add invalidation for urls if time permits.
         invalid_urls = [
