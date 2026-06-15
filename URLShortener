@@ -21,8 +21,8 @@ class UrlShortener:
         return ''.join(secrets.choice(alphabet) for _ in range(length))
 
     def shorten(self, long_url):
-        if not validate_url(long_url):
-            return "Not a valid url"
+        # if not validate_url(long_url):
+        #    return "Not a valid url"
         # Return existing short url if present
         if long_url in self.long_to_short:
             return self.long_to_short[long_url]
@@ -45,8 +45,8 @@ class UrlShortener:
         raise RuntimeError("Unable to generate unique short URL")
 
     def access_url(self, short_url):
-        if not validate_url(short_url):
-            return "Not a valid url"
+        #if not validate_url(short_url):
+        #    return "Not a valid url"
         # Look up by short URL, increment access_count and return long URL
         record = self.stored_urls.get(short_url)
         if not record:
@@ -55,8 +55,8 @@ class UrlShortener:
         return record["long_url"]
 
     def get_record(self, short_url):
-        if not validate_url(short_url):
-            return "Not a valid url"
+        #if not validate_url(short_url):
+        #    return "Not a valid url"
         # Return the stored JSON-like record (copy)
         record = self.stored_urls.get(short_url)
         if not record:
@@ -72,8 +72,8 @@ class UrlShortener:
         return True
 
     def to_json(self, short_url):
-        if not validate_url(short_url):
-            return "Not a valid url"
+        #if not validate_url(short_url):
+        #    return "Not a valid url"
         record = self.get_record(short_url)
         if record is None:
             return None
