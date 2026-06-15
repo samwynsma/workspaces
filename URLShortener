@@ -1,0 +1,64 @@
+import json
+import secrets
+import string
+from datetime import datetime
+
+
+class UrlShortener:
+
+    def __init__(self, domain="https://test"):
+        # maps short_url -> record
+        self.stored_urls = {}
+        # maps long_url -> short_url for fast lookup
+        self.long_to_short = {}
+        self.domain = domain.rstrip('/')
+
+    def _now_iso(self):
+        return datetime.utcnow().replace(microsecond=0).isoformat() + 'Z'
+
+    def _generate_code(self, length=6):
+        alphabet = string.ascii_letters + string.digits
+        return ''.join(secrets.choice(alphabet) for _ in range(length))
+
+    def shorten(self, long_url):
+        # Return existing short url if present
+        if long_url in self.long_to_short:
+            return self.long_to_short[long_url]
+
+        # create new short url
+        for _ in range(5):
+            code = self._generate_code()
+            short_url = f"{self.domain}/{code}"
+            if short_url not in self.stored_urls:
+                record = {
+                    "short_url": short_url,
+                    "long_url": long_url,
+                    "created_at": self._now_iso(),
+                    "access_count": 0
+                }
+                self.stored_urls[short_url] = record
+                self.long_to_short[long_url] = short_url
+                return short_url
+
+        raise RuntimeError("Unable to generate unique short URL")
+
+    def access_url(self, short_url):
+        # Look up by short URL, increment access_count and return long URL
+        record = self.stored_urls.get(short_url)
+        if not record:
+            return None
+        record["access_count"] += 1
+        return record["long_url"]
+
+    def get_record(self, short_url):
+        # Return the stored JSON-like record (copy)
+        record = self.stored_urls.get(short_url)
+        if not record:
+            return None
+        return dict(record)
+
+    def to_json(self, short_url):
+        record = self.get_record(short_url)
+        if record is None:
+            return None
+        return json.dumps(record)
