@@ -1,4 +1,13 @@
-This application is a user-side url interpreter that is primarily console-driven
-The command line asks the user for an existing short url or a url to shorten.
-If they add a new url, it creates a new short url for the 
-If they enter the existing short url, it increments the counter for that url and returns the long url.
+## URL Shortening Program ##
+
+This application is a programming task that I had at an interview. My original execution and interview ended in disaster, but I am a trooper who learns from my mistakes.
+I will take this application and turn it into something that I can use for later and can demonstrate it for future interviews.
+
+The goal of this application is to take a URL and shorten it, then store that shortened URL in a database store for use later.
+The application should handle many users at once. It should also cleanse the database whenever an item becomes too old.
+
+TODO: Existing code must be altered from HTML to Python
+TODO: More test cases must be added.
+TODO: GUI components of the application must be finished.
+TODO: Shortened URL must use a database instead of a built-in dictionary.
+TODO: If possible, link this project with the API Project.
